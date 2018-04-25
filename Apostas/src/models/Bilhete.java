@@ -6,8 +6,8 @@ public class Bilhete {
     private int id;
     private double valor = 5.00;
     private List<Aposta> apostas;
-    private String nomeDoApostador;
-    private String cpfDoApostador;
+    private Apostador apostador;
+    private boolean premiado;
 
     public Bilhete() {
         this.id += 1;
@@ -29,21 +29,22 @@ public class Bilhete {
         return apostas;
     }
 
-    public void setNomeDoApostador(String nomeDoApostador) {
-        this.nomeDoApostador = nomeDoApostador;
+    public void setApostador(Apostador apostador) {
+        this.apostador = apostador;
     }
 
-    public String getNomeDoApostador() {
-        return nomeDoApostador;
+    public Apostador getApostador() {
+        return apostador;
     }
 
-	private String getCpfDoApostador() {
-		return cpfDoApostador;
+	public boolean isPremiado() {
+		return premiado;
 	}
 
-	private void setCpfDoApostador(String cpfDoApostador) {
-		this.cpfDoApostador = cpfDoApostador;
+	public void setPremiado(boolean premiado) {
+		this.premiado = premiado;
 	}
-    
+
+	
     
 }

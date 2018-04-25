@@ -9,9 +9,10 @@ public class Jogo {
     private Campeonato campeonato;
     
 
-    public Jogo(String timeDeCasa, String timeDeFora) {
+    public Jogo(String timeDeCasa, String timeDeFora, Campeonato campeonato) {
         this.timeDeCasa = timeDeCasa;
         this.timeDeFora = timeDeFora;
+        this.campeonato = campeonato;
         this.id += 1;
     }
     
@@ -36,13 +37,13 @@ public class Jogo {
 
 
 
-	private Campeonato getCampeonato() {
+	public Campeonato getCampeonato() {
 		return campeonato;
 	}
 
 
 
-	private void setCampeonato(Campeonato campeonato) {
+	public void setCampeonato(Campeonato campeonato) {
 		this.campeonato = campeonato;
 	}
 
@@ -70,7 +71,7 @@ public class Jogo {
 		this.timeDeFora = timeDeFora;
 	}
 	
-	public String partida(String timeDeCasa, String timeDeFora){
-		return "";
+	public String partida(){
+		return timeDeCasa + " X " + timeDeFora;
 	}
 }

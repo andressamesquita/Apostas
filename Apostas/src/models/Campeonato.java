@@ -8,8 +8,9 @@ public class Campeonato {
     private String local;
     private List<Jogo> jogos;
 
-    public Campeonato(String nome) {
+    public Campeonato(String nome, String local) {
         this.nome = nome;
+        this.local = local;
         this.id += 1;
     }
     
@@ -23,17 +24,11 @@ public class Campeonato {
         return id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public String getNome() {
         return nome;
     }
 
-    public void setLocal(String local) {
-        this.local = local;
-    }
 
     public String getLocal() {
         return local;
