@@ -5,8 +5,9 @@ public class Resultado {
     private String definicao;
     private Jogo jogo;
 
-    public Resultado() {
+    public Resultado(String definicao) {
         this.id += 1;
+        this.definicao = definicao;
     }
 
     public void setId(int id) {

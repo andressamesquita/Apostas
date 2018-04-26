@@ -2,12 +2,11 @@ package models;
 
 public class Aposta {
     private int id;
-    private Jogo jogo;
+    public Jogo jogo;
     private String palpite;
     private Bilhete bilhete;
     private boolean acertou;
-    private double valor = 1;
-
+    
     public Aposta() {
         this.id += 1;
     }
@@ -44,11 +43,17 @@ public class Aposta {
         return bilhete;
     }
 
-	public boolean isAcertou() {
+	public boolean getAcertou() {
 		return acertou;
 	}
 
-	public void setAcertou(boolean acertou) {
-		this.acertou = acertou;
+	public void setAcertou() {
+		if(this.jogo.getResultado().getDefinicao().equals(this.getPalpite())) {
+            this.acertou = true;
+        }
 	}
+
+	
+
+
 }

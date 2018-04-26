@@ -8,11 +8,13 @@ public class Bilhete {
     private List<Aposta> apostas;
     private Apostador apostador;
     private boolean premiado;
+    private String data;
+    private static int incrementoId = 1;
 
     public Bilhete() {
-        this.id += 1;
+        this.id = incrementoId++;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -37,7 +39,7 @@ public class Bilhete {
         return apostador;
     }
 
-	public boolean isPremiado() {
+	public boolean getPremiado() {
 		return premiado;
 	}
 
@@ -45,6 +47,17 @@ public class Bilhete {
 		this.premiado = premiado;
 	}
 
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	public double getValor() {
+		return valor;
+	}
 	
     
 }

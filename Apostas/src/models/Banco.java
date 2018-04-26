@@ -72,30 +72,5 @@ public class Banco {
         return bilhetes;
     }
 
- /*   public void setTimes(List<Time> times) {
-        this.times.add(new Time("Corinthians"));
-        this.times.add(new Time("Palmeiras"));
-        this.times.add(new Time("São Paulo"));
-        this.times.add(new Time("Flamengo"));
 
-        this.times.add(new Time("Real Madrid"));
-        this.times.add(new Time("Barcelona"));
-        this.times.add(new Time("Sevilla"));
-        this.times.add(new Time("Valencia"));
-        
-        
-        if(this.campeonatos.get(0).getNome().equals("Brasileirao")) {
-        	
-            
-        }else if (this.campeonatos.get(1).getNome().equals("Espanhol")) {
-        	
-        	
-        }else if(this.campeonatos.get(2).getNome().equals("Ingles")){
-        	
-        }
-    }
-
-    public List<Time> getTimes() {
-        return times;
-    }*/
 }
