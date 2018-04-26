@@ -2,10 +2,11 @@ package models;
 
 public class Aposta {
     private int id;
-    public Jogo jogo;
+    private Jogo jogo;
     private String palpite;
     private Bilhete bilhete;
     private boolean acertou;
+    private double valor = 1;
 
     public Aposta() {
         this.id += 1;

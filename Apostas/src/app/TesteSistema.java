@@ -15,8 +15,8 @@ import java.util.List;
 
 public class TesteSistema {
 	public static void main(String[] args) throws IOException{
-    	List<Aposta> apostas = new ArrayList<>();
-    	List<Bilhete> bilhetes = new ArrayList<>();
+    	List<Aposta> apostas = new ArrayList<Aposta>();
+    	List<Bilhete> bilhetes = new ArrayList<Bilhete>();
         Banco banco = new Banco();
         banco.criarCampeonatos();
         banco.criarJogos();
@@ -26,10 +26,11 @@ public class TesteSistema {
 		Object opMenu;
 		
         do {
+        	
     	    opMenu = JOptionPane.showInputDialog(null,"Menu",
 					"Apostas BET", JOptionPane.PLAIN_MESSAGE, null,
 					opcoes, "Comprar Bilhete");
-    	   
+    	    
 	        //int opMenu = ler.nextInt();
 	        if(opMenu == opcoes[0]) {
 	        	Bilhete bilhete = new Bilhete();
@@ -39,12 +40,13 @@ public class TesteSistema {
 				
 	        	//executando ações
 	        	if (confirmar == JOptionPane.YES_OPTION){
+	        		
 					Apostador apostador = new Apostador(JOptionPane.showInputDialog(null,"Nome do Apostador", "DADOS", JOptionPane.PLAIN_MESSAGE));
 					apostador.setCpf(JOptionPane.showInputDialog(null,"CPF","DADOS", JOptionPane.PLAIN_MESSAGE));
 					bilhete.setApostador(apostador);
 					
+
 					for (int i = 1; i <= 5; i++) {
-		            	
 		            	Aposta aposta = new Aposta();
 		            	int campeonato = Integer.parseInt(JOptionPane.showInputDialog(null,
 		            			"1 - Brasileiro\n2 - Espanhol\n3 - Inglês\n\n\nNº referente a escolha",
@@ -52,61 +54,70 @@ public class TesteSistema {
 							                
 		                
 		                if (campeonato == 1){//se for brasileiro printa os jogos e escolhe o numero referente
-		                	
-		                	int jogo = Integer.parseInt(JOptionPane.showInputDialog(null,
-		                			jogosBrasileirao(banco)+"\n\nFaça sua escolha","JOGOS DO BRASILEIRÃO",
-		                			JOptionPane.PLAIN_MESSAGE));
-		                	
-		                	aposta.setPalpite(JOptionPane.showInputDialog(null,
-			            			"CASA\nEMPATE\nFORA\n\nDigite sua opção:",
-			            			"PALPITES", JOptionPane.PLAIN_MESSAGE));
-		                	aposta.setJogo(banco.getJogos().get(jogo-1));
-	                    	apostas.add(aposta);  	
-		                	
+		                	validandoPartida(banco, aposta, apostas,"brasileiro", -1);
 		               }
 		                
 		                else if (campeonato == 2){
-		                	
-		                	int jogo = Integer.parseInt(JOptionPane.showInputDialog(null,
-		                			jogosCampEspanhol(banco)+"\n\nFaça sua escolha","JOGOS DO CAMPEONATO ESPANHOL",
-		                			JOptionPane.PLAIN_MESSAGE));
-		                	
-		                	aposta.setPalpite(JOptionPane.showInputDialog(null,
-			            			"CASA\nEMPATE\nFORA\n\nDigite sua opção:",
-			            			"PALPITES", JOptionPane.PLAIN_MESSAGE));
-		                	aposta.setJogo(banco.getJogos().get(jogo+9));
-	                    	apostas.add(aposta);
+		                	validandoPartida(banco, aposta, apostas,"espanhol", 9);
 		                }
 		                
 		                else if (campeonato == 3){
-	                	
-		                	int jogo = Integer.parseInt(JOptionPane.showInputDialog(null,
-		                			jogosCampIngles(banco)+"\n\nFaça sua escolha","JOGOS DO CAMPEONATO INGLÊS",
-		                			JOptionPane.PLAIN_MESSAGE));
-		                	
-		                	aposta.setPalpite(JOptionPane.showInputDialog(null,
-			            			"CASA\nEMPATE\nFORA\n\nDigite sua opção:",
-			            			"PALPITES", JOptionPane.PLAIN_MESSAGE));
-		                	aposta.setJogo(banco.getJogos().get(jogo+19));
-	                    	apostas.add(aposta);
+		                	validandoPartida(banco, aposta, apostas,"ingles", 19);
 		                }	              
-		    
+		                apostas.add(aposta);
 					}	            
 					
 	        	}
 	        	bilhete.setApostas(apostas);
-	            bilhetes.add(bilhete);	
+	            bilhetes.add(bilhete);
+	            apostas = new ArrayList();
 	            JOptionPane.showMessageDialog(null, "Apostas feitas com sucesso!\n Fique de olho no bilhete!");
 	        }
         	
 	        else if(opMenu == opcoes[1]) {
-	        	
 	        	JOptionPane.showMessageDialog(null, mostrarBilhetes(bilhetes),"BILHETE",JOptionPane.PLAIN_MESSAGE);
         	}
+	        
 
         }while(opMenu == null || opMenu != "Sair");
    }
 	
+	private static void validandoPartida(Banco banco,Aposta aposta, List<Aposta> apostas,String campeonato, int index) {
+		boolean jogoRepetido = false;
+		int jogo;
+		if (campeonato.equals("brasileiro")){
+			jogo = Integer.parseInt(JOptionPane.showInputDialog(null,jogosBrasileirao(banco)+"\n\nFaça sua escolha","JOGOS DO BRASILEIRÃO",
+	    			JOptionPane.PLAIN_MESSAGE));
+		}
+		else if(campeonato.equals("espanhol")){
+			jogo = Integer.parseInt(JOptionPane.showInputDialog(null,jogosCampEspanhol(banco)+"\n\nFaça sua escolha","JOGOS DO CAMPEONATO ESPANHOL",
+	    			JOptionPane.PLAIN_MESSAGE));
+		}else{
+			jogo = Integer.parseInt(JOptionPane.showInputDialog(null,jogosCampIngles(banco)+"\n\nFaça sua escolha","JOGOS DO CAMPEONATO INGLÊS",
+	    			JOptionPane.PLAIN_MESSAGE));
+		}
+		
+		if (!apostas.isEmpty()){
+			for (int i = 0; i<apostas.size();i++){
+				if (banco.getJogos().get(jogo + index).partida().equals(apostas.get(i).getJogo().partida())){
+					jogoRepetido = true;
+					break;
+				}
+			}
+		}
+		
+		if (jogoRepetido){
+			JOptionPane.showMessageDialog(null, "OPS, Você já apostou nesse jogo \n Tente apostar em outro");
+			validandoPartida(banco, aposta, apostas,campeonato, index);
+		}else{
+			aposta.setPalpite(JOptionPane.showInputDialog(null,
+        			"CASA\nEMPATE\nFORA\n\nDigite sua opção:",
+        			"PALPITES", JOptionPane.PLAIN_MESSAGE));
+        	aposta.setJogo(banco.getJogos().get(jogo + index));
+		}
+		
+	}
+
 	private static String jogosBrasileirao(Banco banco){
 		String jogosCampeonatos ="";
 		
@@ -147,21 +158,19 @@ public class TesteSistema {
 	}
 	
 	private static String mostrarBilhetes(List<Bilhete> bilhetes){
-		
-		String bbbb = "";
-        String aaaa = "";
-        int cont=0;
+        String apostasBilhete = "";
+        String todasApostas = "";
 		
         for (int i = 0; i<bilhetes.size();i++){
+        	apostasBilhete = "";
         	
-        	bbbb += "Nome : " + bilhetes.get(i).getApostador().getNome()+"\nCPF : " + bilhetes.get(i).getApostador().getCpf()+"\n\nAPOSTAS\n";
+        	todasApostas += "Nome : " + bilhetes.get(i).getApostador().getNome()+"\nCPF : " + bilhetes.get(i).getApostador().getCpf()+"\n\nAPOSTAS\n";
         	for(int j = 0; j<bilhetes.get(i).getApostas().size();j++){
-        		cont++;
-        		aaaa += ("Jogo : " + bilhetes.get(i).getApostas().get(j).jogo.partida()+ " - Palpite: " + bilhetes.get(i).getApostas().get(j).getPalpite()+"\n");
+        		apostasBilhete += ("Jogo : " + bilhetes.get(i).getApostas().get(j).getJogo().partida()+ " - Palpite: " + bilhetes.get(i).getApostas().get(j).getPalpite()+"\n");
         	}
-        	bbbb += aaaa + "\n"; 
+        	todasApostas += apostasBilhete + "\n"; 
         }
-        return bbbb;
+        return todasApostas;
         
 	}
 
